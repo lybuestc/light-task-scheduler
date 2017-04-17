@@ -76,6 +76,7 @@ public class JobPriorityBlockingDeque {
     }
 
     public boolean offer(JobPo e) {
+
         if (e == null) throw new NullPointerException();
         if (list.size() >= capacity)
             return false;

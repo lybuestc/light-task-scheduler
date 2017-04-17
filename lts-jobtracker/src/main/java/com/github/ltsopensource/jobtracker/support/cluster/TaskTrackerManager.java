@@ -97,6 +97,9 @@ public class TaskTrackerManager {
                     }
                 } else {
                     // 只有当channel正常的时候才返回
+                    //同一个worker的多个实例都会来pull
+                    //todo 此处是只选了其中活着的一台去下发任务,而taskTrackerNodes是所有启动的同一个nodeGroup的机器,可以做
+                    //todo 分片逻辑,和广播特性。
                     return taskTrackerNode;
                 }
             }

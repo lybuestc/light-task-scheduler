@@ -27,7 +27,7 @@ public class JobSender {
 
     public SendResult send(String taskTrackerNodeGroup, String taskTrackerIdentity, SendInvoker invoker) {
 
-        // 从mongo 中取一个可运行的job
+        // 从mongo 中取一个可运行的job,如果没有需要执行的job直接返回NO_JOB,就不做消息下发了
         final JobPo jobPo = appContext.getPreLoader().take(taskTrackerNodeGroup, taskTrackerIdentity);
         if (jobPo == null) {
             if (LOGGER.isDebugEnabled()) {

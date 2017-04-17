@@ -68,13 +68,16 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
                 // 初始化配置
                 initConfig();
 
-                // 初始化HttpCmdServer
+                // 初始化HttpCmdServer,用于接收控制台的http请求创建任务。
                 initHttpCmdServer();
 
+                //设置context上下文,new实例
                 beforeRemotingStart();
 
+                //远程调用的逻辑在这里面
                 remotingStart();
 
+                //jvm监控和channel管理(定时清理断开的channel)
                 afterRemotingStart();
 
                 initRegistry();
@@ -99,7 +102,7 @@ public abstract class AbstractJobNode<T extends Node, Context extends AppContext
         int port = appContext.getConfig().getParameter(ExtConfig.HTTP_CMD_PORT, 8719);
         appContext.setHttpCmdServer(HttpCmdServer.Factory.getHttpCmdServer(config.getIp(), port));
 
-        // 先启动，中间看端口是否被占用
+        // 先启动，中间看端口是否被占用 ;当完成时发消息过来会回调
         appContext.getHttpCmdServer().start();
         // 设置command端口，会暴露到注册中心上
         node.setHttpCmdPort(appContext.getHttpCmdServer().getPort());

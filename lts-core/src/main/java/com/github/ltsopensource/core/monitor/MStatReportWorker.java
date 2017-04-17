@@ -86,7 +86,9 @@ public class MStatReportWorker implements Runnable {
                     // JVM monitor
                     mData.setJvmMData(JVMCollector.collect());
                     // report
-                    report(mData);
+                    System.out.println("上报jvm情况");
+                    //todo 上报是我自己注释掉的
+                    //report(mData);
 
                 } finally {
                     preMinute = minute;

@@ -42,6 +42,7 @@ public class HttpCmdExecutor implements Runnable {
 
             Assert.notNull(httpCmdProc, "Can not find the command:[" + request.getCommand() + "]");
 
+            //给客户端响应http请求已经成功执行
             sendResponse(HTTP_OK, JSON.toJSONString(httpCmdProc.execute(request)));
 
         } catch (HttpCMDErrorException ignored) {

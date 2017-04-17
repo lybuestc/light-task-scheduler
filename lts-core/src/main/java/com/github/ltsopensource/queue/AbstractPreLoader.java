@@ -47,6 +47,7 @@ public abstract class AbstractPreLoader implements PreLoader {
                 @Override
                 public void run() {
 
+                    //todo 每秒都要去加载,而且是过时了才捞出来,问题比较多;需要改造成每n秒捞一次
                     for (final String loadTaskTrackerNodeGroup : LOAD_SIGNAL) {
                         new Thread(new Runnable() {
                             @Override
@@ -189,8 +190,10 @@ public abstract class AbstractPreLoader implements PreLoader {
     private JobPo get(String taskTrackerNodeGroup) {
 
         JobPriorityBlockingDeque queue = getQueue(taskTrackerNodeGroup);
-
+        System.out.println("当前的queue是" + queue.toString());
         if (queue.size() / loadSize < factor) {
+            // todo 每次来pull都要去加载,一般情况下都是小于这个300*0.2个同时触发的job,因此这个条件永远符合
+            // todo
             // 触发加载的请求
             if (!LOAD_SIGNAL.contains(taskTrackerNodeGroup)) {
                 LOAD_SIGNAL.add(taskTrackerNodeGroup);
